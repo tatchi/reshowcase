@@ -109,16 +109,24 @@ const compiler = rspack.rspack({
 	},
 	output: {
 		path: outputPath,
-		filename: 'reshowcase.[name].js',
+		filename: '[name].[contenthash].js',
 		globalObject: 'this',
-		chunkFilename: 'reshowcase.[name].chunk.js',
+		chunkFilename: '[name].[contenthash].chunk.js',
 		chunkLoadingGlobal: 'reshowcase__d',
 	},
 
 	module: config.module,
 	optimization: {
+		runtimeChunk: 'single',
 		splitChunks: {
 			chunks: 'all',
+			cacheGroups: {
+				vendor: {
+					test: /[\\/]node_modules[\\/]/,
+					name: 'vendors',
+					chunks: 'all',
+				},
+			},
 		},
 	},
 	plugins: [
@@ -190,6 +198,9 @@ if (isBuild) {
 			devMiddleware: {
 				publicPath: '/',
 				stats: 'errors-warnings',
+			},
+			headers: {
+				'Cache-Control': 'public, max-age=3600',
 			},
 			...(config.devServer || {}),
 		},

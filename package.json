@@ -3,7 +3,8 @@
 	"dependencies": {
 		"@rspack/cli": "^0.4.0",
 		"@rspack/core": "^0.4.0",
-		"@rspack/dev-server": "^0.4.0"
+		"@rspack/dev-server": "^0.4.0",
+		"@rspack/plugin-react-refresh": "^0.4.0"
 	},
 	"devDependencies": {
 		"concurrently": "^6.0.0",
