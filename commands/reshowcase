@@ -109,11 +109,25 @@ const compiler = rspack.rspack({
   },
   output: {
     path: outputPath,
-    filename: "reshowcase[fullhash].js",
+    filename: "[name].[contenthash].js",
     globalObject: "this",
     chunkLoadingGlobal: "reshowcase__d",
   },
   module: config.module,
+  optimization: {
+    minimize: isBuild,
+    splitChunks: {
+      chunks: 'all',
+      cacheGroups: {
+        react: {
+          name: 'react',
+          chunks: 'all',
+          test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
+          enforce: true,
+        },
+      },
+    },
+  },
   plugins: [
     ...(config.plugins ? config.plugins : []),
     new rspack.CopyRspackPlugin({
